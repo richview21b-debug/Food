@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>飲食熱量及致肥追蹤（離線智能版）</title>
+  <title>飲食熱量及運動追蹤（減肚腩進階版）</title>
   <style>
     :root {
       --primary: #10b981;
       --primary-dark: #059669;
+      --sport: #3b82f6;
+      --sport-dark: #2563eb;
       --bg: #f3f4f6;
       --card: #ffffff;
       --text: #1f2937;
@@ -27,13 +29,13 @@
     .header {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
-      padding: 20px 16px;
+      padding: 18px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
     }
-    .header-title h1 { font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .header-title h1 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
     .header-title p { font-size: 12px; opacity: 0.9; margin-top: 2px; }
     .goal-btn {
       background: rgba(255,255,255,0.2);
@@ -63,11 +65,12 @@
       border-left: 4px solid var(--primary);
       padding-left: 8px;
     }
+    .card-title.sport-title { border-left-color: var(--sport); }
     .date-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
+      justify-content: space-between;
+      margin-bottom: 12px;
       font-size: 14px;
       color: var(--muted);
     }
@@ -82,24 +85,43 @@
     }
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 14px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
     }
     .stat-box {
       background: #f9fafb;
       border-radius: 12px;
-      padding: 12px 6px;
+      padding: 10px 4px;
       text-align: center;
       border: 1px solid var(--border);
     }
     .stat-box.green { background: #ecfdf5; border-color: #a7f3d0; }
+    .stat-box.blue { background: #eff6ff; border-color: #bfdbfe; }
     .stat-box.red { background: #fef2f2; border-color: #fecaca; }
-    .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-    .stat-val { font-size: 20px; font-weight: 800; color: var(--text); }
+    .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+    .stat-val { font-size: 17px; font-weight: 800; color: var(--text); }
     .stat-box.green .stat-val { color: var(--primary-dark); }
+    .stat-box.blue .stat-val { color: var(--sport-dark); }
     .stat-box.red .stat-val { color: var(--danger); }
-    .stat-unit { font-size: 11px; color: var(--muted); }
+    .stat-unit { font-size: 10px; color: var(--muted); }
+
+    /* 三大營養素橫條 */
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .macro-item { text-align: center; }
+    .macro-name { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .macro-num { font-size: 14px; font-weight: 800; margin-top: 2px; }
+    .macro-sub { font-size: 10px; color: #94a3b8; }
+
     .progress-info {
       display: flex;
       justify-content: space-between;
@@ -132,15 +154,61 @@
     }
     .advice-banner.warn { background: #fffbeb; color: #92400e; }
     .advice-banner.danger { background: #fef2f2; color: #991b1b; }
-    .hint-box {
-      background: #f0fdf4;
-      border: 1px dashed #86efac;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 13px;
-      color: #166534;
-      margin-bottom: 12px;
+
+    /* 運動輸入區 */
+    .sport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
     }
+    .sport-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px;
+    }
+    .sport-box label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .sport-input-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sport-input-row input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .sport-est {
+      font-size: 11px;
+      color: var(--sport-dark);
+      font-weight: 600;
+      margin-top: 4px;
+      text-align: right;
+    }
+    .btn-sport {
+      width: 100%;
+      background: var(--sport);
+      color: white;
+      border: none;
+      padding: 11px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-sport:active { background: var(--sport-dark); }
+
     .presets {
       display: flex;
       flex-wrap: wrap;
@@ -156,7 +224,6 @@
       font-size: 12px;
       cursor: pointer;
     }
-    .preset-chip:active { background: #e5e7eb; }
     textarea {
       width: 100%;
       border: 1.5px solid #d1d5db;
@@ -181,7 +248,6 @@
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
     }
-    .btn-primary:active { background: var(--primary-dark); transform: scale(0.99); }
     .parsed-results {
       margin-top: 14px;
       border-top: 1px solid var(--border);
@@ -202,20 +268,21 @@
     .parsed-left { display: flex; align-items: center; gap: 8px; flex: 1; }
     .parsed-left input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
     .parsed-name { font-size: 14px; font-weight: 700; }
+    .macro-tag { font-size: 11px; color: #4b5563; margin-top: 2px; }
     .risk-badge {
       display: inline-block;
       font-size: 11px;
       padding: 2px 6px;
       border-radius: 6px;
       font-weight: 600;
-      margin-top: 2px;
+      margin-top: 3px;
     }
     .risk-high { background: #fee2e2; color: #b91c1c; }
     .risk-med { background: #fef3c7; color: #b45309; }
     .risk-low { background: #d1fae5; color: #047857; }
     .parsed-right { display: flex; align-items: center; gap: 4px; }
     .kcal-input {
-      width: 68px;
+      width: 64px;
       padding: 6px;
       border: 1px solid #d1d5db;
       border-radius: 8px;
@@ -256,7 +323,7 @@
       font-weight: 600;
       cursor: pointer;
     }
-    .empty-state { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 0; }
+    .empty-state { text-align: center; color: var(--muted); font-size: 13px; padding: 16px 0; }
     .modal-backdrop {
       position: fixed; inset: 0; background: rgba(0,0,0,0.5);
       display: none; align-items: center; justify-content: center; padding: 20px; z-index: 99;
@@ -277,17 +344,17 @@
 
   <div class="header">
     <div class="header-title">
-      <h1>🥗 飲食熱量及致肥追蹤</h1>
-      <p>純本機離線智能版 · 識揀嘢食自然瘦肚腩</p>
+      <h1>🥗 飲食與運動熱量追蹤</h1>
+      <p>控碳水·補蛋白·羽毛球及步數消耗抵銷</p>
     </div>
-    <button class="goal-btn" onclick="openGoalModal()">🎯 熱量上限</button>
+    <button class="goal-btn" onclick="openGoalModal()">🎯 基礎上限</button>
   </div>
 
   <div class="container">
     <!-- 進度總覽卡片 -->
     <div class="card">
       <div class="card-title">
-        <span>今日熱量攝取進度</span>
+        <span>今日熱量與營養控管</span>
       </div>
       <div class="date-row">
         <span>檢視日期：</span>
@@ -296,26 +363,50 @@
 
       <div class="stats-grid">
         <div class="stat-box">
-          <div class="stat-label">今日已攝取</div>
+          <div class="stat-label">飲食攝取</div>
           <div class="stat-val" id="consumedVal">0</div>
           <div class="stat-unit">kcal</div>
         </div>
+        <div class="stat-box blue">
+          <div class="stat-label">運動消耗</div>
+          <div class="stat-val" id="burnedVal">0</div>
+          <div class="stat-unit">kcal</div>
+        </div>
         <div class="stat-box green" id="remainBox">
-          <div class="stat-label">剩餘可食熱量</div>
+          <div class="stat-label">剩餘可食</div>
           <div class="stat-val" id="remainVal">1500</div>
           <div class="stat-unit">kcal</div>
         </div>
         <div class="stat-box red">
-          <div class="stat-label">高致肥食物數</div>
+          <div class="stat-label">高致肥項</div>
           <div class="stat-val" id="highRiskCount">0</div>
           <div class="stat-unit">項</div>
         </div>
       </div>
 
+      <!-- 三大營養素統計 -->
+      <div class="macro-grid">
+        <div class="macro-item">
+          <div class="macro-name">🥩 蛋白質 (增肌)</div>
+          <div class="macro-num" style="color:#059669;"><span id="protVal">0</span>g</div>
+          <div class="macro-sub">建議 ≥ 65g</div>
+        </div>
+        <div class="macro-item">
+          <div class="macro-name">🍚 碳水 (控肚腩)</div>
+          <div class="macro-num" style="color:#d97706;"><span id="carbVal">0</span>g</div>
+          <div class="macro-sub">建議 ≤ 150g</div>
+        </div>
+        <div class="macro-item">
+          <div class="macro-name">🧈 脂肪 (控油)</div>
+          <div class="macro-num" style="color:#dc2626;"><span id="fatVal">0</span>g</div>
+          <div class="macro-sub">建議 ≤ 45g</div>
+        </div>
+      </div>
+
       <div class="progress-info">
-        <span id="progressLeftText">0 kcal</span>
+        <span id="progressLeftText">淨攝取: 0 kcal</span>
         <span id="progressCenterText">進度正常 (0%)</span>
-        <span id="progressRightText">上限: 1500 kcal</span>
+        <span id="progressRightText">基礎上限: 1500 kcal</span>
       </div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill" id="progressBar"></div>
@@ -327,27 +418,50 @@
       </div>
     </div>
 
+    <!-- 今日運動量記錄卡片 -->
+    <div class="card">
+      <div class="card-title sport-title">
+        <span>🏸 今日運動消耗（自動增加可食額度）</span>
+      </div>
+      <div class="sport-grid">
+        <div class="sport-box">
+          <label>👟 今日步行步數</label>
+          <div class="sport-input-row">
+            <input type="number" id="stepsInput" placeholder="例如 8000" oninput="previewSportBurn()" />
+            <span style="font-size:12px; color:#64748b;">步</span>
+          </div>
+          <div class="sport-est" id="stepsBurnEst">約消耗 0 kcal</div>
+        </div>
+        <div class="sport-box">
+          <label>🏸 打羽毛球時間</label>
+          <div class="sport-input-row">
+            <input type="number" id="badmintonInput" placeholder="例如 120" oninput="previewSportBurn()" />
+            <span style="font-size:12px; color:#64748b;">分鐘</span>
+          </div>
+          <div class="sport-est" id="badmintonBurnEst">約消耗 0 kcal</div>
+        </div>
+      </div>
+      <button class="btn-sport" onclick="saveSportLog()">💾 儲存今日運動量並更新額度</button>
+    </div>
+
     <!-- 本機智能拆解輸入卡片 -->
     <div class="card">
       <div class="card-title">
-        <span>⚡ 本機智能拆解飲食（支援多樣食物）</span>
-      </div>
-      <div class="hint-box">
-        直接用廣東話一次過打出你食咗嘅所有嘢（支援<strong>半碟、一碗、兩粒、走甜</strong>等份量），系統會即時自動拆解卡路里同評估致肥風險！
+        <span>⚡ 本機智能拆解飲食（含營養素估算）</span>
       </div>
 
       <div class="presets">
         <span class="preset-chip" onclick="fillPreset('半碟乾炒牛河 + 3粒燒賣 + 凍檸茶少甜')">🍜 半碟牛河+燒賣+凍檸茶</span>
         <span class="preset-chip" onclick="fillPreset('叉燒飯少飯 + 走油菜心 + 凍奶茶')">🍖 叉燒飯+油菜+凍奶茶</span>
         <span class="preset-chip" onclick="fillPreset('兩隻烚蛋 + 麥皮 + 無糖豆漿')">🥚 烚蛋+麥皮+無糖豆漿</span>
-        <span class="preset-chip" onclick="fillPreset('珍珠奶茶 + 炸雞髀')">🧋 珍珠奶茶+炸雞髀</span>
+        <span class="preset-chip" onclick="fillPreset('雪菜肉絲米 + 熱檸茶走甜')">🍲 雪菜肉絲米+熱檸茶</span>
       </div>
 
-      <textarea id="foodInput" rows="3" placeholder="例如：午餐食咗半碟干炒牛河，加四粒魚蛋同埋一杯凍檸茶..."></textarea>
-      <button class="btn-primary" onclick="analyzeFoodOffline()">🔍 立即拆解多樣食物熱量</button>
+      <textarea id="foodInput" rows="3" placeholder="輸入你食咗嘅嘢（支援半碟、一碗、兩粒、少飯、走甜等）..."></textarea>
+      <button class="btn-primary" onclick="analyzeFoodOffline()">🔍 立即拆解熱量與營養素</button>
 
       <div class="parsed-results" id="parsedResults">
-        <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:#374151;">✅ 已為你拆解以下項目（可自由勾選或微調數值）：</div>
+        <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:#374151;">✅ 已為你拆解（可勾選或微調卡路里）：</div>
         <div id="parsedList"></div>
         <button class="btn-confirm" onclick="saveSelectedItems()">➕ 確認加入今日飲食紀錄</button>
       </div>
@@ -366,8 +480,8 @@
   <!-- 設定熱量上限彈窗 -->
   <div class="modal-backdrop" id="goalModal">
     <div class="modal">
-      <h3>🎯 設定每日目標熱量上限</h3>
-      <p style="font-size:12px; color:#6b7280; margin-bottom:10px;">一般減肚腩建議：女士 1300-1500 kcal，男士 1600-1800 kcal。</p>
+      <h3>🎯 設定每日基礎熱量上限</h3>
+      <p style="font-size:12px; color:#6b7280; margin-bottom:10px;">減肚腩建議基礎攝取：1400 - 1500 kcal（有打波或行路系統會自動再幫你加上限）。</p>
       <input type="number" id="goalInput" value="1500" />
       <div class="modal-btns">
         <button style="background:#e5e7eb; color:#374151;" onclick="closeGoalModal()">取消</button>
@@ -377,103 +491,101 @@
   </div>
 
 <script>
-  // 內建香港常見飲食資料庫（超過110款，涵蓋茶餐廳、燒味、點心、粉麵、飲品、家常菜、零食）
+  // 內建香港常見飲食資料庫（含卡路里 + 蛋白質p / 碳水c / 脂肪f 克數）
   const HK_FOOD_DB = [
     // 碟頭飯與炒粉麵
-    { keys: ["乾炒牛河", "干炒牛河"], name: "乾炒牛河 (1碟)", kcal: 970, risk: "high", reason: "極高油份及精製澱粉，極易囤積肚腩" },
-    { keys: ["星洲炒米"], name: "星洲炒米 (1碟)", kcal: 890, risk: "high", reason: "炒米粉吸油量極高" },
-    { keys: ["揚州炒飯", "炒飯"], name: "揚州炒飯 (1碟)", kcal: 860, risk: "high", reason: "油份與碳水化合物雙高" },
-    { keys: ["福建炒飯"], name: "福建炒飯 (1碟)", kcal: 920, risk: "high", reason: "芡汁及炒飯底熱量極高" },
-    { keys: ["焗豬扒飯", "焗豬"], name: "焗豬扒飯 (1碟)", kcal: 980, risk: "high", reason: "炸豬扒配芝士白汁，致肥炸彈" },
-    { keys: ["肉醬意粉"], name: "肉醬意粉 (1碟)", kcal: 680, risk: "med", reason: "醬汁含較多油糖，建議少汁" },
-    { keys: ["卡邦尼意粉"], name: "卡邦尼意粉 (1碟)", kcal: 850, risk: "high", reason: "忌廉及煙肉脂肪極高" },
-    { keys: ["沙爹牛肉麵", "沙爹牛"], name: "沙爹牛肉即食麵 (1碗)", kcal: 650, risk: "high", reason: "油炸麵底加高脂沙爹醬" },
-    { keys: ["餐蛋麵", "餐肉蛋麵"], name: "餐蛋即食麵 (1碗)", kcal: 680, risk: "high", reason: "加工午餐肉及油炸麵高鈉高脂" },
-    { keys: ["雪菜肉絲米", "雪菜肉絲米粉"], name: "雪菜肉絲米粉 (1碗)", kcal: 380, risk: "low", reason: "非油炸米粉，減肚腩好選擇" },
-    { keys: ["魚蛋粉", "魚蛋河"], name: "魚蛋粉/河 (1碗)", kcal: 360, risk: "low", reason: "清湯低脂，走炸魚皮更佳" },
-    { keys: ["雲吞麵"], name: "鮮蝦雲吞麵 (1碗)", kcal: 410, risk: "low", reason: "份量適中，蛋白質充足" },
-    { keys: ["牛腩麵", "牛腩河"], name: "清湯牛腩粉麵 (1碗)", kcal: 560, risk: "med", reason: "牛腩脂肪較高，避免飲湯底" },
-    { keys: ["譚仔", "米線"], name: "湯米線 (1碗基本)", kcal: 550, risk: "med", reason: "視乎湯底與配料，清湯較健康" },
+    { keys: ["乾炒牛河", "干炒牛河"], name: "乾炒牛河 (1碟)", kcal: 970, p: 28, c: 115, f: 42, risk: "high", reason: "極高油份及精製澱粉，極易囤積肚腩" },
+    { keys: ["星洲炒米"], name: "星洲炒米 (1碟)", kcal: 890, p: 24, c: 105, f: 38, risk: "high", reason: "炒米粉吸油量極高" },
+    { keys: ["揚州炒飯", "炒飯"], name: "揚州炒飯 (1碟)", kcal: 860, p: 22, c: 110, f: 34, risk: "high", reason: "油份與碳水化合物雙高" },
+    { keys: ["福建炒飯"], name: "福建炒飯 (1碟)", kcal: 920, p: 26, c: 112, f: 38, risk: "high", reason: "芡汁及炒飯底熱量極高" },
+    { keys: ["焗豬扒飯", "焗豬"], name: "焗豬扒飯 (1碟)", kcal: 980, p: 35, c: 108, f: 44, risk: "high", reason: "炸豬扒配芝士白汁，致肥炸彈" },
+    { keys: ["肉醬意粉"], name: "肉醬意粉 (1碟)", kcal: 680, p: 25, c: 88, f: 22, risk: "med", reason: "醬汁含較多油糖，建議少汁" },
+    { keys: ["卡邦尼意粉"], name: "卡邦尼意粉 (1碟)", kcal: 850, p: 26, c: 82, f: 45, risk: "high", reason: "忌廉及煙肉脂肪極高" },
+    { keys: ["沙爹牛肉麵", "沙爹牛"], name: "沙爹牛肉即食麵 (1碗)", kcal: 650, p: 24, c: 72, f: 28, risk: "high", reason: "油炸麵底加高脂沙爹醬" },
+    { keys: ["餐蛋麵", "餐肉蛋麵"], name: "餐蛋即食麵 (1碗)", kcal: 680, p: 20, c: 70, f: 34, risk: "high", reason: "加工午餐肉及油炸麵高鈉高脂" },
+    { keys: ["雪菜肉絲米", "雪菜肉絲米粉"], name: "雪菜肉絲米粉 (1碗)", kcal: 380, p: 18, c: 62, f: 6, risk: "low", reason: "非油炸米粉低油，減肚腩好選擇" },
+    { keys: ["魚蛋粉", "魚蛋河"], name: "魚蛋粉/河 (1碗)", kcal: 360, p: 20, c: 58, f: 5, risk: "low", reason: "清湯低脂，走炸魚皮更佳" },
+    { keys: ["雲吞麵"], name: "鮮蝦雲吞麵 (1碗)", kcal: 410, p: 22, c: 56, f: 10, risk: "low", reason: "份量適中，蛋白質充足" },
+    { keys: ["牛腩麵", "牛腩河"], name: "清湯牛腩粉麵 (1碗)", kcal: 560, p: 28, c: 60, f: 22, risk: "med", reason: "牛腩脂肪較高，避免飲湯底" },
+    { keys: ["譚仔", "米線"], name: "湯米線 (1碗基本)", kcal: 550, p: 18, c: 78, f: 16, risk: "med", reason: "視乎湯底與配料，清湯較健康" },
 
     // 燒味飯
-    { keys: ["叉燒飯"], name: "叉燒飯 (1盒)", kcal: 780, risk: "high", reason: "半肥瘦叉燒及燒味汁高糖高脂" },
-    { keys: ["燒肉飯"], name: "燒肉飯 (1盒)", kcal: 850, risk: "high", reason: "燒肉皮下脂肪極高" },
-    { keys: ["燒鵝飯", "燒鴨飯"], name: "燒鵝/燒鴨飯 (1盒)", kcal: 880, risk: "high", reason: "禽皮脂肪極豐富，建議去皮" },
-    { keys: ["切雞飯", "白切雞飯"], name: "白切雞飯 (1盒)", kcal: 680, risk: "med", reason: "去皮並走薑蓉可減超過200卡" },
-    { keys: ["油雞飯", "豉油雞飯"], name: "豉油雞飯 (1盒)", kcal: 720, risk: "med", reason: "建議去雞皮及少甜豉油" },
-    { keys: ["叉雞飯"], name: "叉雞飯 (1盒)", kcal: 750, risk: "high", reason: "雙拼燒味飯份量及油份偏高" },
+    { keys: ["叉燒飯"], name: "叉燒飯 (1盒)", kcal: 780, p: 32, c: 98, f: 26, risk: "high", reason: "半肥瘦叉燒及燒味汁高糖高脂" },
+    { keys: ["燒肉飯"], name: "燒肉飯 (1盒)", kcal: 850, p: 28, c: 95, f: 38, risk: "high", reason: "燒肉皮下脂肪極高" },
+    { keys: ["燒鵝飯", "燒鴨飯"], name: "燒鵝/燒鴨飯 (1盒)", kcal: 880, p: 30, c: 95, f: 40, risk: "high", reason: "禽皮脂肪極豐富，建議去皮" },
+    { keys: ["切雞飯", "白切雞飯"], name: "白切雞飯 (1盒)", kcal: 680, p: 36, c: 92, f: 18, risk: "med", reason: "去皮並走薑蓉可減超過200卡" },
+    { keys: ["油雞飯", "豉油雞飯"], name: "豉油雞飯 (1盒)", kcal: 720, p: 35, c: 95, f: 20, risk: "med", reason: "建議去雞皮及少甜豉油" },
+    { keys: ["叉雞飯"], name: "叉雞飯 (1盒)", kcal: 750, p: 34, c: 95, f: 24, risk: "high", reason: "雙拼燒味飯份量及油份偏高" },
 
     // 茶餐廳小食與麵包
-    { keys: ["菠蘿油"], name: "菠蘿油 (1個)", kcal: 450, risk: "high", reason: "牛油配高糖酥皮，反式脂肪高" },
-    { keys: ["菠蘿包"], name: "菠蘿包 (1個)", kcal: 340, risk: "med", reason: "精製糖與牛油酥皮較多" },
-    { keys: ["蛋撻"], name: "蛋撻 (1個)", kcal: 230, risk: "med", reason: "酥皮牛油含量高" },
-    { keys: ["西多士", "西多"], name: "法蘭西多士 (1份)", kcal: 620, risk: "high", reason: "油炸麵包配牛油糖漿，極致肥" },
-    { keys: ["炸雞髀", "炸雞腿"], name: "炸雞髀 (1隻)", kcal: 540, risk: "high", reason: "油炸外皮吸油量極高" },
-    { keys: ["滷水雞髀", "鹵水雞髀"], name: "滷水雞髀 (1隻)", kcal: 340, risk: "med", reason: "去皮食用是優質蛋白質" },
-    { keys: ["三文治", "腿蛋治", "公司三文治"], name: "三文治 (1份)", kcal: 360, risk: "low", reason: "非油炸輕食，走沙律醬更低卡" },
-    { keys: ["多士", "奶醬多", "花生醬多士"], name: "多士/奶醬多 (1份)", kcal: 330, risk: "med", reason: "煉奶及花生醬糖油含量高" },
-    { keys: ["雞尾包"], name: "雞尾包 (1個)", kcal: 360, risk: "med", reason: "內餡含大量椰絲牛油糖" },
-    { keys: ["腸仔包"], name: "腸仔包 (1個)", kcal: 280, risk: "med", reason: "加工香腸含較多飽和脂肪" },
-    { keys: ["方包", "白麵包", "全麥包"], name: "麵包/方包 (1片)", kcal: 110, risk: "low", reason: "適量碳水化合物" },
+    { keys: ["菠蘿油"], name: "菠蘿油 (1個)", kcal: 450, p: 8, c: 54, f: 22, risk: "high", reason: "牛油配高糖酥皮，反式脂肪高" },
+    { keys: ["菠蘿包"], name: "菠蘿包 (1個)", kcal: 340, p: 8, c: 54, f: 10, risk: "med", reason: "精製糖與牛油酥皮較多" },
+    { keys: ["蛋撻"], name: "蛋撻 (1個)", kcal: 230, p: 5, c: 24, f: 12, risk: "med", reason: "酥皮牛油含量高" },
+    { keys: ["西多士", "西多"], name: "法蘭西多士 (1份)", kcal: 620, p: 14, c: 65, f: 34, risk: "high", reason: "油炸麵包配牛油糖漿，極致肥" },
+    { keys: ["炸雞髀", "炸雞腿"], name: "炸雞髀 (1隻)", kcal: 540, p: 32, c: 22, f: 36, risk: "high", reason: "油炸外皮吸油量極高" },
+    { keys: ["滷水雞髀", "鹵水雞髀"], name: "滷水雞髀 (1隻)", kcal: 340, p: 34, c: 6, f: 19, risk: "med", reason: "去皮食用是優質蛋白質" },
+    { keys: ["三文治", "腿蛋治", "公司三文治"], name: "三文治 (1份)", kcal: 360, p: 16, c: 38, f: 15, risk: "low", reason: "非油炸輕食，走沙律醬更低卡" },
+    { keys: ["多士", "奶醬多", "花生醬多士"], name: "多士/奶醬多 (1份)", kcal: 330, p: 8, c: 42, f: 14, risk: "med", reason: "煉奶及花生醬糖油含量高" },
+    { keys: ["雞尾包"], name: "雞尾包 (1個)", kcal: 360, p: 7, c: 48, f: 15, risk: "med", reason: "內餡含大量椰絲牛油糖" },
+    { keys: ["腸仔包"], name: "腸仔包 (1個)", kcal: 280, p: 9, c: 34, f: 12, risk: "med", reason: "加工香腸含較多飽和脂肪" },
+    { keys: ["方包", "白麵包", "全麥包"], name: "麵包/方包 (1片)", kcal: 110, p: 4, c: 20, f: 1.5, risk: "low", reason: "適量碳水化合物" },
 
     // 點心與街頭小食
-    { keys: ["燒賣"], name: "魚肉/豬肉燒賣 (1粒)", kcal: 42, risk: "med", reason: "肥豬肉比例較高，積少成多" },
-    { keys: ["魚蛋", "咖哩魚蛋"], name: "魚蛋 (1粒)", kcal: 25, risk: "low", reason: "低脂彈牙，注意咖哩汁鈉含量" },
-    { keys: ["蝦餃"], name: "蝦餃 (1粒)", kcal: 45, risk: "low", reason: "蒸點低油，蝦仁高蛋白" },
-    { keys: ["叉燒包"], name: "叉燒包 (1個)", kcal: 160, risk: "med", reason: "餡料醬汁偏甜" },
-    { keys: ["腸粉", "豬腸粉"], name: "齋腸粉 (1條)", kcal: 75, risk: "low", reason: "米漿蒸製，少落甜醬麻醬" },
-    { keys: ["牛肉腸", "蝦腸", "叉燒腸"], name: "餡料腸粉 (1條)", kcal: 110, risk: "low", reason: "蒸點低脂之選" },
-    { keys: ["山竹牛肉"], name: "山竹牛肉球 (1粒)", kcal: 95, risk: "med", reason: "混入較多肥豬肉增加口感" },
-    { keys: ["鳳爪"], name: "豉汁鳳爪 (1碟)", kcal: 260, risk: "high", reason: "先炸後蒸，膠質下隱藏高油份" },
-    { keys: ["排骨", "豉汁排骨"], name: "豉汁蒸排骨 (1碟)", kcal: 320, risk: "high", reason: "排骨脂肪比例高且多油" },
-    { keys: ["糯米雞"], name: "糯米雞 (1隻)", kcal: 560, risk: "high", reason: "糯米吸滿雞油與醬汁" },
-    { keys: ["煎釀三寶"], name: "煎釀三寶 (1件)", kcal: 85, risk: "med", reason: "油煎魚肉，茄子最吸油" },
-    { keys: ["格仔餅"], name: "格仔餅 (1底)", kcal: 480, risk: "high", reason: "塗滿牛油、花生醬與煉奶" },
-    { keys: ["雞蛋仔"], name: "雞蛋仔 (1底)", kcal: 390, risk: "med", reason: "含較多砂糖與牛油漿" },
+    { keys: ["燒賣"], name: "魚肉/豬肉燒賣 (1粒)", kcal: 42, p: 2.2, c: 3.5, f: 2.1, risk: "med", reason: "肥豬肉比例較高，積少成多" },
+    { keys: ["魚蛋", "咖哩魚蛋"], name: "魚蛋 (1粒)", kcal: 25, p: 2.5, c: 2.5, f: 0.5, risk: "low", reason: "低脂彈牙，注意咖哩汁鈉含量" },
+    { keys: ["蝦餃"], name: "蝦餃 (1粒)", kcal: 45, p: 3.0, c: 5.0, f: 1.2, risk: "low", reason: "蒸點低油，蝦仁高蛋白" },
+    { keys: ["叉燒包"], name: "叉燒包 (1個)", kcal: 160, p: 6, c: 26, f: 3.5, risk: "med", reason: "餡料醬汁偏甜" },
+    { keys: ["腸粉", "豬腸粉"], name: "齋腸粉 (1條)", kcal: 75, p: 1.5, c: 16, f: 0.5, risk: "low", reason: "米漿蒸製，少落甜醬麻醬" },
+    { keys: ["牛肉腸", "蝦腸", "叉燒腸"], name: "餡料腸粉 (1條)", kcal: 110, p: 5.5, c: 17, f: 2.0, risk: "low", reason: "蒸點低脂之選" },
+    { keys: ["山竹牛肉"], name: "山竹牛肉球 (1粒)", kcal: 95, p: 5.0, c: 4.5, f: 6.2, risk: "med", reason: "混入較多肥豬肉增加口感" },
+    { keys: ["鳳爪"], name: "豉汁鳳爪 (1碟)", kcal: 260, p: 14, c: 8, f: 19, risk: "high", reason: "先炸後蒸，膠質下隱藏高油份" },
+    { keys: ["排骨", "豉汁排骨"], name: "豉汁蒸排骨 (1碟)", kcal: 320, p: 15, c: 7, f: 25, risk: "high", reason: "排骨脂肪比例高且多油" },
+    { keys: ["糯米雞"], name: "糯米雞 (1隻)", kcal: 560, p: 22, c: 74, f: 19, risk: "high", reason: "糯米吸滿雞油與醬汁" },
+    { keys: ["煎釀三寶"], name: "煎釀三寶 (1件)", kcal: 85, p: 4.0, c: 6.5, f: 4.8, risk: "med", reason: "油煎魚肉，茄子最吸油" },
+    { keys: ["格仔餅"], name: "格仔餅 (1底)", kcal: 480, p: 9, c: 58, f: 23, risk: "high", reason: "塗滿牛油、花生醬與煉奶" },
+    { keys: ["雞蛋仔"], name: "雞蛋仔 (1底)", kcal: 390, p: 8, c: 56, f: 14, risk: "med", reason: "含較多砂糖與牛油漿" },
 
-    // 飲品（極重要致肥源頭）
-    { keys: ["珍珠奶茶", "珍奶"], name: "珍珠奶茶 (1杯)", kcal: 520, risk: "high", reason: "奶精加黑糖珍珠，喝一杯等於兩碗飯" },
-    { keys: ["芝士奶蓋", "奶蓋"], name: "芝士奶蓋飲品 (1杯)", kcal: 480, risk: "high", reason: "忌廉芝士脂肪含量極高" },
-    { keys: ["凍奶茶"], name: "港式凍奶茶 (1杯)", kcal: 210, risk: "med", reason: "淡奶含飽和脂肪及糖漿" },
-    { keys: ["熱奶茶"], name: "港式熱奶茶 (1杯)", kcal: 140, risk: "low", reason: "無加糖情況下熱量較凍飲低" },
-    { keys: ["凍檸茶"], name: "港式凍檸茶 (1杯)", kcal: 160, risk: "med", reason: "預設糖漿約含4-5茶匙糖，建議走甜" },
-    { keys: ["熱檸茶"], name: "港式熱檸茶 (1杯)", kcal: 45, risk: "low", reason: "少糖或走甜幾乎零負擔" },
-    { keys: ["凍咖啡"], name: "港式凍咖啡 (1杯)", kcal: 190, risk: "med", reason: "含淡奶及糖漿" },
-    { keys: ["美式咖啡", "齋啡", "黑咖啡", "Americano"], name: "美式黑咖啡 (1杯)", kcal: 10, risk: "low", reason: "零糖零脂，有助提升代謝" },
-    { keys: ["拿鐵", "Latte", "鮮奶咖啡"], name: "鮮奶咖啡 Latte (1杯)", kcal: 160, risk: "low", reason: "純牛奶蛋白質，不加糖很健康" },
-    { keys: ["可樂", "汽水", "雪碧", "芬達"], name: "有糖汽水 (1罐)", kcal: 140, risk: "high", reason: "純液體精製糖，最易直接轉化為內臟脂肪" },
-    { keys: ["無糖可樂", "零系可樂", "Zero"], name: "無糖汽水 (1罐)", kcal: 0, risk: "low", reason: "零卡路里替代品" },
-    { keys: ["無糖豆漿"], name: "無糖豆漿 (1盒/杯)", kcal: 95, risk: "low", reason: "優質植物蛋白，減脂期佳品" },
-    { keys: ["豆漿"], name: "甜豆漿 (1盒/杯)", kcal: 150, risk: "low", reason: "含適量蔗糖" },
-    { keys: ["檸檬茶", "紙包飲品", "維他奶"], name: "紙包甜飲品 (1盒)", kcal: 135, risk: "med", reason: "含約25克添加糖" },
-    { keys: ["啤酒"], name: "啤酒 (1罐)", kcal: 145, risk: "high", reason: "酒精會暫停身體燃燒脂肪，直接造成啤酒肚" },
+    // 飲品
+    { keys: ["珍珠奶茶", "珍奶"], name: "珍珠奶茶 (1杯)", kcal: 520, p: 2, c: 82, f: 20, risk: "high", reason: "奶精加黑糖珍珠，喝一杯等於兩碗飯" },
+    { keys: ["芝士奶蓋", "奶蓋"], name: "芝士奶蓋飲品 (1杯)", kcal: 480, p: 4, c: 56, f: 26, risk: "high", reason: "忌廉芝士脂肪含量極高" },
+    { keys: ["凍奶茶"], name: "港式凍奶茶 (1杯)", kcal: 210, p: 3.5, c: 28, f: 9, risk: "med", reason: "淡奶含飽和脂肪及糖漿" },
+    { keys: ["熱奶茶"], name: "港式熱奶茶 (1杯)", kcal: 140, p: 3.5, c: 12, f: 8.5, risk: "low", reason: "無加糖情況下熱量較凍飲低" },
+    { keys: ["凍檸茶"], name: "港式凍檸茶 (1杯)", kcal: 160, p: 0, c: 40, f: 0, risk: "med", reason: "預設糖漿約含4-5茶匙糖，建議走甜" },
+    { keys: ["熱檸茶"], name: "港式熱檸茶 (1杯)", kcal: 45, p: 0, c: 11, f: 0, risk: "low", reason: "少糖或走甜幾乎零負擔" },
+    { keys: ["凍咖啡"], name: "港式凍咖啡 (1杯)", kcal: 190, p: 3, c: 26, f: 8, risk: "med", reason: "含淡奶及糖漿" },
+    { keys: ["美式咖啡", "齋啡", "黑咖啡", "Americano"], name: "美式黑咖啡 (1杯)", kcal: 10, p: 0.5, c: 1.5, f: 0, risk: "low", reason: "零糖零脂，有助提升代謝" },
+    { keys: ["拿鐵", "Latte", "鮮奶咖啡"], name: "鮮奶咖啡 Latte (1杯)", kcal: 160, p: 9, c: 13, f: 8, risk: "low", reason: "純牛奶蛋白質，不加糖很健康" },
+    { keys: ["可樂", "汽水", "雪碧", "芬達"], name: "有糖汽水 (1罐)", kcal: 140, p: 0, c: 35, f: 0, risk: "high", reason: "純液體精製糖，最易直接轉化為內臟脂肪" },
+    { keys: ["無糖可樂", "零系可樂", "Zero"], name: "無糖汽水 (1罐)", kcal: 0, p: 0, c: 0, f: 0, risk: "low", reason: "零卡路里替代品" },
+    { keys: ["無糖豆漿"], name: "無糖豆漿 (1盒/杯)", kcal: 95, p: 9.5, c: 4, f: 4.5, risk: "low", reason: "優質植物蛋白，減脂期佳品" },
+    { keys: ["豆漿"], name: "甜豆漿 (1盒/杯)", kcal: 150, p: 8.5, c: 18, f: 4.5, risk: "low", reason: "含適量蔗糖" },
+    { keys: ["檸檬茶", "紙包飲品", "維他奶"], name: "紙包甜飲品 (1盒)", kcal: 135, p: 1, c: 30, f: 1, risk: "med", reason: "含約25克添加糖" },
+    { keys: ["啤酒"], name: "啤酒 (1罐)", kcal: 145, p: 1.5, c: 13, f: 0, risk: "high", reason: "酒精會暫停身體燃燒脂肪，直接造成啤酒肚" },
 
     // 家常餸菜與健康食材
-    { keys: ["白飯", "米飯", "飯"], name: "白飯 (1碗)", kcal: 260, risk: "low", reason: "主要能量來源，減肚腩可減至半碗" },
-    { keys: ["糙米飯", "紅米飯"], name: "糙米/紅米飯 (1碗)", kcal: 230, risk: "low", reason: "高纖維穩定血糖，不易積聚肚腩" },
-    { keys: ["麥皮", "燕麥"], name: "燕麥片/麥皮 (1碗)", kcal: 150, risk: "low", reason: "水溶性纖維極高，飽肚又刮油" },
-    { keys: ["烚蛋", "水煮蛋", "雞蛋", "蛋"], name: "雞蛋 (1隻)", kcal: 75, risk: "low", reason: "完全蛋白質，飽腹感極強" },
-    { keys: ["煎蛋", "荷包蛋"], name: "煎蛋 (1隻)", kcal: 115, risk: "low", reason: "比水煮蛋多約40卡煎油" },
-    { keys: ["炒蛋"], name: "滑蛋/炒蛋 (1份)", kcal: 180, risk: "med", reason: "茶餐廳炒蛋通常加入大量油或淡奶" },
-    { keys: ["雞胸肉", "雞胸"], name: "雞胸肉 (1份約100g)", kcal: 165, risk: "low", reason: "減脂增肌首選，低脂高蛋白" },
-    { keys: ["三文魚"], name: "三文魚 (1件)", kcal: 240, risk: "low", reason: "富含Omega-3好油脂" },
-    { keys: ["蒸魚"], name: "清蒸魚 (1份)", kcal: 180, risk: "low", reason: "極低脂優質蛋白質" },
-    { keys: ["菜心", "生菜", "西蘭花", "油菜", "蔬菜", "青菜"], name: "灼蔬菜 (1碟)", kcal: 45, risk: "low", reason: "走油及少蠔油幾乎零熱量" },
-    { keys: ["沙律"], name: "蔬菜沙律 (1份)", kcal: 120, risk: "low", reason: "注意沙律醬汁（千島醬極高卡）" },
-    { keys: ["香蕉"], name: "香蕉 (1條)", kcal: 105, risk: "low", reason: "豐富鉀質有助去水腫" },
-    { keys: ["蘋果"], name: "蘋果 (1個)", kcal: 80, risk: "low", reason: "高果膠纖維" },
-    { keys: ["薯片"], name: "薯片 (1包)", kcal: 320, risk: "high", reason: "高油高鹽高碳水，極易致肥" },
-    { keys: ["朱古力", "巧克力"], name: "朱古力 (1小排/份)", kcal: 220, risk: "high", reason: "高糖高可可脂" },
-    { keys: ["蛋糕", "芝士蛋糕"], name: "蛋糕 (1件)", kcal: 380, risk: "high", reason: "忌廉、牛油與砂糖組合" },
-    { keys: ["雪糕", "冰淇淋"], name: "雪糕 (1杯/球)", kcal: 240, risk: "high", reason: "高乳脂與高糖份" }
+    { keys: ["白飯", "米飯", "飯"], name: "白飯 (1碗)", kcal: 260, p: 5, c: 58, f: 0.5, risk: "low", reason: "主要能量來源，減肚腩可減至半碗" },
+    { keys: ["糙米飯", "紅米飯"], name: "糙米/紅米飯 (1碗)", kcal: 230, p: 5.5, c: 48, f: 1.8, risk: "low", reason: "高纖維穩定血糖，不易積聚肚腩" },
+    { keys: ["麥皮", "燕麥"], name: "燕麥片/麥皮 (1碗)", kcal: 150, p: 5.5, c: 27, f: 2.5, risk: "low", reason: "水溶性纖維極高，飽肚又刮油" },
+    { keys: ["烚蛋", "水煮蛋", "雞蛋", "蛋"], name: "雞蛋 (1隻)", kcal: 75, p: 6.5, c: 0.6, f: 5.2, risk: "low", reason: "完全蛋白質，飽腹感極強" },
+    { keys: ["煎蛋", "荷包蛋"], name: "煎蛋 (1隻)", kcal: 115, p: 6.5, c: 0.6, f: 9.5, risk: "low", reason: "比水煮蛋多約40卡煎油" },
+    { keys: ["炒蛋"], name: "滑蛋/炒蛋 (1份)", kcal: 180, p: 11, c: 2, f: 14, risk: "med", reason: "茶餐廳炒蛋通常加入大量油或淡奶" },
+    { keys: ["雞胸肉", "雞胸"], name: "雞胸肉 (1份約100g)", kcal: 165, p: 31, c: 0, f: 3.6, risk: "low", reason: "減脂增肌首選，低脂高蛋白" },
+    { keys: ["三文魚"], name: "三文魚 (1件)", kcal: 240, p: 22, c: 0, f: 16, risk: "low", reason: "富含Omega-3好油脂" },
+    { keys: ["蒸魚"], name: "清蒸魚 (1份)", kcal: 180, p: 26, c: 1, f: 7.5, risk: "low", reason: "極低脂優質蛋白質" },
+    { keys: ["菜心", "生菜", "西蘭花", "油菜", "蔬菜", "青菜"], name: "灼蔬菜 (1碟)", kcal: 45, p: 2.5, c: 6, f: 1.2, risk: "low", reason: "走油及少蠔油幾乎零熱量" },
+    { keys: ["沙律"], name: "蔬菜沙律 (1份)", kcal: 120, p: 3, c: 10, f: 7, risk: "low", reason: "注意沙律醬汁（千島醬極高卡）" },
+    { keys: ["香蕉"], name: "香蕉 (1條)", kcal: 105, p: 1.3, c: 27, f: 0.4, risk: "low", reason: "豐富鉀質有助去水腫" },
+    { keys: ["蘋果"], name: "蘋果 (1個)", kcal: 80, p: 0.4, c: 21, f: 0.3, risk: "low", reason: "高果膠纖維" },
+    { keys: ["薯片"], name: "薯片 (1包)", kcal: 320, p: 3.5, c: 32, f: 20, risk: "high", reason: "高油高鹽高碳水，極易致肥" },
+    { keys: ["朱古力", "巧克力"], name: "朱古力 (1小排/份)", kcal: 220, p: 3, c: 24, f: 13, risk: "high", reason: "高糖高可可脂" },
+    { keys: ["蛋糕", "芝士蛋糕"], name: "蛋糕 (1件)", kcal: 380, p: 6, c: 42, f: 21, risk: "high", reason: "忌廉、牛油與砂糖組合" },
+    { keys: ["雪糕", "冰淇淋"], name: "雪糕 (1杯/球)", kcal: 240, p: 4, c: 28, f: 12, risk: "high", reason: "高乳脂與高糖份" }
   ];
 
-  // 份量與甜度詞彙識別器
   function detectMultiplier(segment) {
     let mult = 1;
     let labelSuffix = "";
 
-    // 數量詞
     if (/半(碟|碗|份|杯|個|條|件)/.test(segment)) { mult = 0.5; labelSuffix += " [半份]"; }
     else if (/(兩|2)(粒|隻|個|片|條|件|罐|杯)/.test(segment)) { mult = 2; labelSuffix += " x2"; }
     else if (/(三|3)(粒|隻|個|片|條|件|罐|杯)/.test(segment)) { mult = 3; labelSuffix += " x3"; }
@@ -481,7 +593,6 @@
     else if (/(五|5)(粒|隻|個|片|條|件|罐|杯)/.test(segment)) { mult = 5; labelSuffix += " x5"; }
     else if (/(六|6)(粒|隻|個|片|條|件|罐|杯)/.test(segment)) { mult = 6; labelSuffix += " x6"; }
 
-    // 飲食習慣修飾
     if (/少飯/.test(segment)) { mult *= 0.85; labelSuffix += " (少飯)"; }
     if (/走甜|無糖/.test(segment)) { mult *= 0.45; labelSuffix += " (走甜)"; }
     else if (/少甜|微糖/.test(segment)) { mult *= 0.75; labelSuffix += " (少甜)"; }
@@ -507,15 +618,47 @@
   }
 
   function getLogs() {
-    try {
-      return JSON.parse(localStorage.getItem('belly_food_logs') || '{}');
-    } catch (e) {
-      return {};
-    }
+    try { return JSON.parse(localStorage.getItem('belly_food_logs') || '{}'); }
+    catch (e) { return {}; }
   }
-
   function saveLogs(logs) {
     localStorage.setItem('belly_food_logs', JSON.stringify(logs));
+  }
+
+  function getSportLogs() {
+    try { return JSON.parse(localStorage.getItem('belly_sport_logs') || '{}'); }
+    catch (e) { return {}; }
+  }
+  function saveSportLogs(logs) {
+    localStorage.setItem('belly_sport_logs', JSON.stringify(logs));
+  }
+
+  // 計算步數與羽毛球消耗
+  function calcSportBurn(steps, badmintonMins) {
+    const stepBurn = Math.round((steps / 1000) * 35); // 每1000步約35kcal
+    const badmBurn = Math.round(badmintonMins * 8.5); // 羽毛球約8.5kcal/分鐘
+    return { stepBurn, badmBurn, totalBurn: stepBurn + badmBurn };
+  }
+
+  function previewSportBurn() {
+    const steps = parseInt(document.getElementById('stepsInput').value, 10) || 0;
+    const badm = parseInt(document.getElementById('badmintonInput').value, 10) || 0;
+    const { stepBurn, badmBurn } = calcSportBurn(steps, badm);
+    document.getElementById('stepsBurnEst').textContent = `約消耗 ${stepBurn} kcal`;
+    document.getElementById('badmintonBurnEst').textContent = `約消耗 ${badmBurn} kcal`;
+  }
+
+  function saveSportLog() {
+    const date = document.getElementById('datePicker').value;
+    const steps = parseInt(document.getElementById('stepsInput').value, 10) || 0;
+    const badm = parseInt(document.getElementById('badmintonInput').value, 10) || 0;
+    const { totalBurn } = calcSportBurn(steps, badm);
+
+    const sLogs = getSportLogs();
+    sLogs[date] = { steps, badm, totalBurn };
+    saveSportLogs(sLogs);
+    renderDashboard();
+    alert(`✅ 已記錄今日運動消耗 ${totalBurn} kcal，剩餘可食熱量已自動更新！`);
   }
 
   function fillPreset(text) {
@@ -523,7 +666,6 @@
     analyzeFoodOffline();
   }
 
-  // 純本機離線拆解引擎
   function analyzeFoodOffline() {
     const rawText = document.getElementById('foodInput').value.trim();
     if (!rawText) {
@@ -531,7 +673,6 @@
       return;
     }
 
-    // 用常見連接詞或標點將整句說話切分成獨立小段
     const segments = rawText
       .replace(/(加埋|另外|仲有|跟住|同埋|以及|然後|配|加|同|及|、|，|,|\+|\n)/g, "|")
       .split("|")
@@ -542,7 +683,6 @@
 
     segments.forEach(seg => {
       let matched = false;
-      // 優先匹配較長嘅關鍵詞（例如先匹配「乾炒牛河」而唔係「飯」）
       const sortedDB = [...HK_FOOD_DB].sort((a, b) => b.keys[0].length - a.keys[0].length);
 
       for (const item of sortedDB) {
@@ -554,6 +694,9 @@
             id: Date.now() + Math.random(),
             name: item.name.replace(/\s*\(.*?\)/, '') + labelSuffix,
             kcal: finalKcal,
+            p: Math.round((item.p || 5) * mult),
+            c: Math.round((item.c || 25) * mult),
+            f: Math.round((item.f || 8) * mult),
             risk: finalKcal > 450 ? 'high' : item.risk,
             reason: item.reason,
             checked: true
@@ -563,7 +706,6 @@
         }
       }
 
-      // 如果資料庫未收錄該特別菜式，自動建立自訂項目供微調
       if (!matched) {
         const cleanName = seg.replace(/^(食咗|飲咗|午餐|早餐|晚餐|下午茶|宵夜)/g, '').trim();
         if (cleanName.length > 0) {
@@ -571,6 +713,9 @@
             id: Date.now() + Math.random(),
             name: cleanName + " (自訂估算)",
             kcal: 250,
+            p: 10,
+            c: 30,
+            f: 10,
             risk: "med",
             reason: "未在常見庫中，已預設一般份量熱量，可手動修改",
             checked: true
@@ -601,6 +746,7 @@
             <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleParsedItem(${idx}, this.checked)" />
             <div>
               <div class="parsed-name">${item.name}</div>
+              <div class="macro-tag">蛋白 ${item.p}g · 碳水 ${item.c}g · 脂肪 ${item.f}g</div>
               <span class="risk-badge ${riskClass}">${riskText}</span>
               <div style="font-size:11px; color:#6b7280; margin-top:2px;">${item.reason}</div>
             </div>
@@ -620,7 +766,11 @@
 
   function updateParsedKcal(idx, val) {
     const num = parseInt(val, 10) || 0;
+    const ratio = currentParsedItems[idx].kcal > 0 ? (num / currentParsedItems[idx].kcal) : 1;
     currentParsedItems[idx].kcal = num;
+    currentParsedItems[idx].p = Math.round(currentParsedItems[idx].p * ratio);
+    currentParsedItems[idx].c = Math.round(currentParsedItems[idx].c * ratio);
+    currentParsedItems[idx].f = Math.round(currentParsedItems[idx].f * ratio);
     currentParsedItems[idx].risk = num >= 450 ? 'high' : (num >= 200 ? 'med' : 'low');
   }
 
@@ -642,6 +792,9 @@
         time: nowTime,
         name: item.name,
         kcal: item.kcal,
+        p: item.p,
+        c: item.c,
+        f: item.f,
         risk: item.risk
       });
     });
@@ -675,29 +828,48 @@
     const date = document.getElementById('datePicker').value;
     const logs = getLogs();
     const dayItems = logs[date] || [];
-    const goal = getGoal();
+    const baseGoal = getGoal();
+
+    // 讀取當日運動紀錄
+    const sLogs = getSportLogs();
+    const daySport = sLogs[date] || { steps: 0, badm: 0, totalBurn: 0 };
+    document.getElementById('stepsInput').value = daySport.steps || '';
+    document.getElementById('badmintonInput').value = daySport.badm || '';
+    previewSportBurn();
 
     const totalKcal = dayItems.reduce((sum, item) => sum + item.kcal, 0);
+    const totalP = dayItems.reduce((sum, item) => sum + (item.p || 0), 0);
+    const totalC = dayItems.reduce((sum, item) => sum + (item.c || 0), 0);
+    const totalF = dayItems.reduce((sum, item) => sum + (item.f || 0), 0);
     const highRiskCount = dayItems.filter(item => item.risk === 'high').length;
-    const remain = goal - totalKcal;
-    const pct = Math.min(Math.round((totalKcal / goal) * 100), 100);
+
+    // 總可用預算 = 基礎上限 + 運動消耗
+    const effectiveBudget = baseGoal + daySport.totalBurn;
+    const netKcal = Math.max(0, totalKcal - daySport.totalBurn);
+    const remain = effectiveBudget - totalKcal;
+    const pct = Math.min(Math.round((totalKcal / effectiveBudget) * 100), 100);
 
     document.getElementById('consumedVal').textContent = totalKcal;
-    document.getElementById('remainVal').textContent = remain >= 0 ? remain : 0;
+    document.getElementById('burnedVal').textContent = daySport.totalBurn;
     document.getElementById('highRiskCount').textContent = highRiskCount;
+
+    document.getElementById('protVal').textContent = totalP;
+    document.getElementById('carbVal').textContent = totalC;
+    document.getElementById('fatVal').textContent = totalF;
 
     const remainBox = document.getElementById('remainBox');
     if (remain < 0) {
       remainBox.className = 'stat-box red';
-      remainBox.querySelector('.stat-label').textContent = '已超出上限';
+      remainBox.querySelector('.stat-label').textContent = '已超標';
       document.getElementById('remainVal').textContent = Math.abs(remain);
     } else {
       remainBox.className = 'stat-box green';
-      remainBox.querySelector('.stat-label').textContent = '剩餘可食熱量';
+      remainBox.querySelector('.stat-label').textContent = '剩餘可食';
+      document.getElementById('remainVal').textContent = remain;
     }
 
-    document.getElementById('progressLeftText').textContent = `${totalKcal} kcal`;
-    document.getElementById('progressRightText').textContent = `上限: ${goal} kcal`;
+    document.getElementById('progressLeftText').textContent = `淨攝取: ${netKcal} kcal`;
+    document.getElementById('progressRightText').textContent = `總預算: ${effectiveBudget} kcal`;
 
     const bar = document.getElementById('progressBar');
     bar.style.width = `${pct}%`;
@@ -706,23 +878,31 @@
     const banner = document.getElementById('adviceBanner');
     const adviceText = document.getElementById('adviceText');
 
-    if (totalKcal > goal) {
+    // 結合營養素與熱量給予控食建議
+    if (totalKcal > effectiveBudget) {
       bar.style.backgroundColor = '#ef4444';
-      centerText.textContent = `已超標 (${Math.round((totalKcal / goal) * 100)}%)`;
+      centerText.textContent = `已超標 (${Math.round((totalKcal / effectiveBudget) * 100)}%)`;
       banner.className = 'advice-banner danger';
-      adviceText.textContent = `今日熱量已經超標 ${totalKcal - goal} kcal！今晚避免食宵夜同甜品，多飲水幫助代謝。`;
-    } else if (highRiskCount >= 2 || pct >= 80) {
+      adviceText.textContent = `今日即使扣埋運動消耗，熱量依然超標 ${totalKcal - effectiveBudget} kcal！今晚戒宵夜同甜飲，多飲水幫身體代謝。`;
+    } else if (totalC > 150) {
+      bar.style.backgroundColor = '#f59e0b';
+      centerText.textContent = `碳水偏高 (${pct}%)`;
+      banner.className = 'advice-banner warn';
+      adviceText.textContent = `⚠️ 今日碳水已達 ${totalC}g（超過 150g 減肚腩警戒線）！下一餐建議「走飯/走麵」，集中食瘦肉、雞蛋同灼菜。`;
+    } else if (highRiskCount >= 2 || pct >= 85) {
       bar.style.backgroundColor = '#f59e0b';
       centerText.textContent = `接近上限 (${pct}%)`;
       banner.className = 'advice-banner warn';
-      adviceText.textContent = `今日已攝取 ${highRiskCount} 項高致肥食物，下一餐建議揀清湯粉麵、蒸魚或灼菜平衡返！`;
+      adviceText.textContent = `今日額度所剩無幾（剩 ${remain} kcal），下一餐揀清湯米粉、蒸魚或雞胸肉最穩陣！`;
     } else {
       bar.style.backgroundColor = '#10b981';
-      centerText.textContent = `進度正常 (${pct}%)`;
+      centerText.textContent = `進度理想 (${pct}%)`;
       banner.className = 'advice-banner';
-      adviceText.textContent = highRiskCount === 0
-        ? `今日暫時未有高糖高油食物紀錄，繼續保持清淡飲食，肚腩好快會細！`
-        : `今日有 ${highRiskCount} 項高致肥食物，只要控制好剩餘 ${remain} kcal 額度依然可以穩步減肚腩！`;
+      if (daySport.badm > 0) {
+        adviceText.textContent = `🏸 今日打咗 ${daySport.badm} 分鐘羽毛球消耗 ${calcSportBurn(0, daySport.badm).badmBurn} kcal！記得補充足夠蛋白質（目標 ≥65g），修補肌肉又唔易積脂肪。`;
+      } else {
+        adviceText.textContent = `今日碳水同油脂控制得好好！仲有 ${remain} kcal 額度，保持高蛋白低油飲食，肚腩好快會收細。`;
+      }
     }
 
     const listEl = document.getElementById('logList');
@@ -730,12 +910,12 @@
       listEl.innerHTML = `<div class="empty-state">當日暫時未有飲食紀錄，快啲喺上面輸入你食咗咩啦！</div>`;
     } else {
       listEl.innerHTML = dayItems.slice().reverse().map(item => {
-        const badge = item.risk === 'high' ? '🔴 高致肥' : (item.risk === 'med' ? '🟡 中等' : '🟢 低脂友善');
+        const badge = item.risk === 'high' ? '🔴 高致肥' : (item.risk === 'med' ? '🟡 中等' : '🟢 友善');
         return `
           <li class="log-item">
             <div>
               <div class="log-title">${item.name}</div>
-              <div class="log-meta">${item.time} · ${badge} · <strong>${item.kcal} kcal</strong></div>
+              <div class="log-meta">${item.time} · ${badge} · <strong>${item.kcal} kcal</strong> (蛋${item.p||0}g / 碳${item.c||0}g / 脂${item.f||0}g)</div>
             </div>
             <button class="del-btn" onclick="deleteLogItem(${item.id})">刪除</button>
           </li>

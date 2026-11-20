@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>飲食熱量及運動追蹤（減肚腩進階版）</title>
+  <title>飲食熱量、每餐建議及月度追蹤</title>
   <style>
     :root {
       --primary: #10b981;
       --primary-dark: #059669;
       --sport: #3b82f6;
       --sport-dark: #2563eb;
+      --meal: #8b5cf6;
       --bg: #f3f4f6;
       --card: #ffffff;
       --text: #1f2937;
@@ -24,7 +25,7 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding-bottom: 40px;
+      padding-bottom: 48px;
     }
     .header {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -35,11 +36,11 @@
       align-items: center;
       box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
     }
-    .header-title h1 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-    .header-title p { font-size: 12px; opacity: 0.9; margin-top: 2px; }
+    .header-title h1 { font-size: 18px; font-weight: 700; }
+    .header-title p { font-size: 12px; opacity: 0.92; margin-top: 2px; }
     .goal-btn {
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.45);
       color: white;
       padding: 6px 12px;
       border-radius: 20px;
@@ -47,7 +48,7 @@
       font-weight: 600;
       cursor: pointer;
     }
-    .container { max-width: 600px; margin: 0 auto; padding: 14px; }
+    .container { max-width: 620px; margin: 0 auto; padding: 14px; }
     .card {
       background: var(--card);
       border-radius: 16px;
@@ -66,10 +67,12 @@
       padding-left: 8px;
     }
     .card-title.sport-title { border-left-color: var(--sport); }
+    .card-title.meal-title { border-left-color: var(--meal); }
     .date-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
       margin-bottom: 12px;
       font-size: 14px;
       color: var(--muted);
@@ -106,7 +109,6 @@
     .stat-box.red .stat-val { color: var(--danger); }
     .stat-unit { font-size: 10px; color: var(--muted); }
 
-    /* 三大營養素橫條 */
     .macro-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -155,7 +157,7 @@
     .advice-banner.warn { background: #fffbeb; color: #92400e; }
     .advice-banner.danger { background: #fef2f2; color: #991b1b; }
 
-    /* 運動輸入區 */
+    /* 小米 8 Pro 運動輸入區 */
     .sport-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -188,6 +190,7 @@
       font-size: 15px;
       font-weight: 700;
       text-align: center;
+      background: white;
     }
     .sport-est {
       font-size: 11px;
@@ -208,6 +211,99 @@
       cursor: pointer;
     }
     .btn-sport:active { background: var(--sport-dark); }
+
+    /* 每餐建議區 */
+    .meal-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .meal-row {
+      background: #faf5ff;
+      border: 1px solid #ede9fe;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .meal-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: #6d28d9;
+      background: #ede9fe;
+      padding: 3px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .meal-desc {
+      font-size: 13px;
+      color: #374151;
+      flex: 1;
+    }
+    .meal-quick-btn {
+      background: white;
+      border: 1px solid #ddd6fe;
+      color: #5b21b6;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .meal-quick-btn:active { background: #ede9fe; }
+
+    /* 月度圖表區 */
+    .chart-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .chart-controls input[type="month"] {
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .chart-legend {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .legend-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+    .chart-scroll {
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .chart-summary {
+      display: flex;
+      justify-content: space-between;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #334155;
+      margin-top: 8px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
 
     .presets {
       display: flex;
@@ -344,8 +440,8 @@
 
   <div class="header">
     <div class="header-title">
-      <h1>🥗 飲食與運動熱量追蹤</h1>
-      <p>控碳水·補蛋白·羽毛球及步數消耗抵銷</p>
+      <h1>🥗 飲食·每餐建議·月度追蹤</h1>
+      <p>小米 8 Pro 運動抵銷 · 控碳水收肚腩</p>
     </div>
     <button class="goal-btn" onclick="openGoalModal()">🎯 基礎上限</button>
   </div>
@@ -358,7 +454,7 @@
       </div>
       <div class="date-row">
         <span>檢視日期：</span>
-        <input type="date" id="datePicker" onchange="renderDashboard()" />
+        <input type="date" id="datePicker" onchange="syncMonthAndRender()" />
       </div>
 
       <div class="stats-grid">
@@ -384,7 +480,6 @@
         </div>
       </div>
 
-      <!-- 三大營養素統計 -->
       <div class="macro-grid">
         <div class="macro-item">
           <div class="macro-name">🥩 蛋白質 (增肌)</div>
@@ -406,7 +501,7 @@
       <div class="progress-info">
         <span id="progressLeftText">淨攝取: 0 kcal</span>
         <span id="progressCenterText">進度正常 (0%)</span>
-        <span id="progressRightText">基礎上限: 1500 kcal</span>
+        <span id="progressRightText">總預算: 1500 kcal</span>
       </div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill" id="progressBar"></div>
@@ -418,10 +513,10 @@
       </div>
     </div>
 
-    <!-- 今日運動量記錄卡片 -->
+    <!-- 小米 8 Pro 運動數據輸入卡片 -->
     <div class="card">
       <div class="card-title sport-title">
-        <span>🏸 今日運動消耗（自動增加可食額度）</span>
+        <span>⌚ 小米 8 Pro 運動記錄（直接填 kcal）</span>
       </div>
       <div class="sport-grid">
         <div class="sport-box">
@@ -430,18 +525,45 @@
             <input type="number" id="stepsInput" placeholder="例如 8000" oninput="previewSportBurn()" />
             <span style="font-size:12px; color:#64748b;">步</span>
           </div>
-          <div class="sport-est" id="stepsBurnEst">約消耗 0 kcal</div>
+          <div class="sport-est" id="stepsBurnEst">步數約抵銷 0 kcal</div>
         </div>
         <div class="sport-box">
-          <label>🏸 打羽毛球時間</label>
+          <label>🔥 運動消耗 (小米 kcal)</label>
           <div class="sport-input-row">
-            <input type="number" id="badmintonInput" placeholder="例如 120" oninput="previewSportBurn()" />
-            <span style="font-size:12px; color:#64748b;">分鐘</span>
+            <input type="number" id="sportKcalInput" placeholder="例如 450" oninput="previewSportBurn()" />
+            <span style="font-size:12px; color:#64748b;">kcal</span>
           </div>
-          <div class="sport-est" id="badmintonBurnEst">約消耗 0 kcal</div>
+          <div class="sport-est" id="sportKcalEst">直接計入 0 kcal</div>
         </div>
       </div>
-      <button class="btn-sport" onclick="saveSportLog()">💾 儲存今日運動量並更新額度</button>
+      <button class="btn-sport" onclick="saveSportLog()">💾 儲存今日運動 kcal 並更新額度</button>
+    </div>
+
+    <!-- 每日每餐飲食建議卡片 -->
+    <div class="card">
+      <div class="card-title meal-title">
+        <span>🍽️ 每日每餐飲食建議（免煩惱食乜）</span>
+      </div>
+      <div class="meal-list" id="mealPlanList"></div>
+    </div>
+
+    <!-- 整個月每日 kcal 變化圖表卡片 -->
+    <div class="card">
+      <div class="card-title">
+        <span>📈 整個月每日 kcal 變化圖表</span>
+      </div>
+      <div class="chart-controls">
+        <span style="font-size:13px; color:#6b7280;">選擇月份：</span>
+        <input type="month" id="monthPicker" onchange="renderMonthChart()" />
+      </div>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:#10b981;"></span>達標／安全攝取</span>
+        <span><span class="legend-dot" style="background:#f59e0b;"></span>接近上限 (≥85%)</span>
+        <span><span class="legend-dot" style="background:#ef4444;"></span>超標</span>
+        <span><span class="legend-dot" style="background:#94a3b8;"></span>每日總預算線</span>
+      </div>
+      <div class="chart-scroll" id="monthChartContainer"></div>
+      <div class="chart-summary" id="monthChartSummary"></div>
     </div>
 
     <!-- 本機智能拆解輸入卡片 -->
@@ -481,7 +603,7 @@
   <div class="modal-backdrop" id="goalModal">
     <div class="modal">
       <h3>🎯 設定每日基礎熱量上限</h3>
-      <p style="font-size:12px; color:#6b7280; margin-bottom:10px;">減肚腩建議基礎攝取：1400 - 1500 kcal（有打波或行路系統會自動再幫你加上限）。</p>
+      <p style="font-size:12px; color:#6b7280; margin-bottom:10px;">減肚腩建議基礎攝取：1400 - 1500 kcal（小米 8 Pro 運動 kcal 會自動再幫你加上限）。</p>
       <input type="number" id="goalInput" value="1500" />
       <div class="modal-btns">
         <button style="background:#e5e7eb; color:#374151;" onclick="closeGoalModal()">取消</button>
@@ -491,9 +613,7 @@
   </div>
 
 <script>
-  // 內建香港常見飲食資料庫（含卡路里 + 蛋白質p / 碳水c / 脂肪f 克數）
   const HK_FOOD_DB = [
-    // 碟頭飯與炒粉麵
     { keys: ["乾炒牛河", "干炒牛河"], name: "乾炒牛河 (1碟)", kcal: 970, p: 28, c: 115, f: 42, risk: "high", reason: "極高油份及精製澱粉，極易囤積肚腩" },
     { keys: ["星洲炒米"], name: "星洲炒米 (1碟)", kcal: 890, p: 24, c: 105, f: 38, risk: "high", reason: "炒米粉吸油量極高" },
     { keys: ["揚州炒飯", "炒飯"], name: "揚州炒飯 (1碟)", kcal: 860, p: 22, c: 110, f: 34, risk: "high", reason: "油份與碳水化合物雙高" },
@@ -508,16 +628,12 @@
     { keys: ["雲吞麵"], name: "鮮蝦雲吞麵 (1碗)", kcal: 410, p: 22, c: 56, f: 10, risk: "low", reason: "份量適中，蛋白質充足" },
     { keys: ["牛腩麵", "牛腩河"], name: "清湯牛腩粉麵 (1碗)", kcal: 560, p: 28, c: 60, f: 22, risk: "med", reason: "牛腩脂肪較高，避免飲湯底" },
     { keys: ["譚仔", "米線"], name: "湯米線 (1碗基本)", kcal: 550, p: 18, c: 78, f: 16, risk: "med", reason: "視乎湯底與配料，清湯較健康" },
-
-    // 燒味飯
     { keys: ["叉燒飯"], name: "叉燒飯 (1盒)", kcal: 780, p: 32, c: 98, f: 26, risk: "high", reason: "半肥瘦叉燒及燒味汁高糖高脂" },
     { keys: ["燒肉飯"], name: "燒肉飯 (1盒)", kcal: 850, p: 28, c: 95, f: 38, risk: "high", reason: "燒肉皮下脂肪極高" },
     { keys: ["燒鵝飯", "燒鴨飯"], name: "燒鵝/燒鴨飯 (1盒)", kcal: 880, p: 30, c: 95, f: 40, risk: "high", reason: "禽皮脂肪極豐富，建議去皮" },
     { keys: ["切雞飯", "白切雞飯"], name: "白切雞飯 (1盒)", kcal: 680, p: 36, c: 92, f: 18, risk: "med", reason: "去皮並走薑蓉可減超過200卡" },
     { keys: ["油雞飯", "豉油雞飯"], name: "豉油雞飯 (1盒)", kcal: 720, p: 35, c: 95, f: 20, risk: "med", reason: "建議去雞皮及少甜豉油" },
     { keys: ["叉雞飯"], name: "叉雞飯 (1盒)", kcal: 750, p: 34, c: 95, f: 24, risk: "high", reason: "雙拼燒味飯份量及油份偏高" },
-
-    // 茶餐廳小食與麵包
     { keys: ["菠蘿油"], name: "菠蘿油 (1個)", kcal: 450, p: 8, c: 54, f: 22, risk: "high", reason: "牛油配高糖酥皮，反式脂肪高" },
     { keys: ["菠蘿包"], name: "菠蘿包 (1個)", kcal: 340, p: 8, c: 54, f: 10, risk: "med", reason: "精製糖與牛油酥皮較多" },
     { keys: ["蛋撻"], name: "蛋撻 (1個)", kcal: 230, p: 5, c: 24, f: 12, risk: "med", reason: "酥皮牛油含量高" },
@@ -529,8 +645,6 @@
     { keys: ["雞尾包"], name: "雞尾包 (1個)", kcal: 360, p: 7, c: 48, f: 15, risk: "med", reason: "內餡含大量椰絲牛油糖" },
     { keys: ["腸仔包"], name: "腸仔包 (1個)", kcal: 280, p: 9, c: 34, f: 12, risk: "med", reason: "加工香腸含較多飽和脂肪" },
     { keys: ["方包", "白麵包", "全麥包"], name: "麵包/方包 (1片)", kcal: 110, p: 4, c: 20, f: 1.5, risk: "low", reason: "適量碳水化合物" },
-
-    // 點心與街頭小食
     { keys: ["燒賣"], name: "魚肉/豬肉燒賣 (1粒)", kcal: 42, p: 2.2, c: 3.5, f: 2.1, risk: "med", reason: "肥豬肉比例較高，積少成多" },
     { keys: ["魚蛋", "咖哩魚蛋"], name: "魚蛋 (1粒)", kcal: 25, p: 2.5, c: 2.5, f: 0.5, risk: "low", reason: "低脂彈牙，注意咖哩汁鈉含量" },
     { keys: ["蝦餃"], name: "蝦餃 (1粒)", kcal: 45, p: 3.0, c: 5.0, f: 1.2, risk: "low", reason: "蒸點低油，蝦仁高蛋白" },
@@ -544,8 +658,6 @@
     { keys: ["煎釀三寶"], name: "煎釀三寶 (1件)", kcal: 85, p: 4.0, c: 6.5, f: 4.8, risk: "med", reason: "油煎魚肉，茄子最吸油" },
     { keys: ["格仔餅"], name: "格仔餅 (1底)", kcal: 480, p: 9, c: 58, f: 23, risk: "high", reason: "塗滿牛油、花生醬與煉奶" },
     { keys: ["雞蛋仔"], name: "雞蛋仔 (1底)", kcal: 390, p: 8, c: 56, f: 14, risk: "med", reason: "含較多砂糖與牛油漿" },
-
-    // 飲品
     { keys: ["珍珠奶茶", "珍奶"], name: "珍珠奶茶 (1杯)", kcal: 520, p: 2, c: 82, f: 20, risk: "high", reason: "奶精加黑糖珍珠，喝一杯等於兩碗飯" },
     { keys: ["芝士奶蓋", "奶蓋"], name: "芝士奶蓋飲品 (1杯)", kcal: 480, p: 4, c: 56, f: 26, risk: "high", reason: "忌廉芝士脂肪含量極高" },
     { keys: ["凍奶茶"], name: "港式凍奶茶 (1杯)", kcal: 210, p: 3.5, c: 28, f: 9, risk: "med", reason: "淡奶含飽和脂肪及糖漿" },
@@ -561,8 +673,6 @@
     { keys: ["豆漿"], name: "甜豆漿 (1盒/杯)", kcal: 150, p: 8.5, c: 18, f: 4.5, risk: "low", reason: "含適量蔗糖" },
     { keys: ["檸檬茶", "紙包飲品", "維他奶"], name: "紙包甜飲品 (1盒)", kcal: 135, p: 1, c: 30, f: 1, risk: "med", reason: "含約25克添加糖" },
     { keys: ["啤酒"], name: "啤酒 (1罐)", kcal: 145, p: 1.5, c: 13, f: 0, risk: "high", reason: "酒精會暫停身體燃燒脂肪，直接造成啤酒肚" },
-
-    // 家常餸菜與健康食材
     { keys: ["白飯", "米飯", "飯"], name: "白飯 (1碗)", kcal: 260, p: 5, c: 58, f: 0.5, risk: "low", reason: "主要能量來源，減肚腩可減至半碗" },
     { keys: ["糙米飯", "紅米飯"], name: "糙米/紅米飯 (1碗)", kcal: 230, p: 5.5, c: 48, f: 1.8, risk: "low", reason: "高纖維穩定血糖，不易積聚肚腩" },
     { keys: ["麥皮", "燕麥"], name: "燕麥片/麥皮 (1碗)", kcal: 150, p: 5.5, c: 27, f: 2.5, risk: "low", reason: "水溶性纖維極高，飽肚又刮油" },
@@ -606,11 +716,22 @@
   function init() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('datePicker').value = today;
+    document.getElementById('monthPicker').value = today.slice(0, 7);
     const savedGoal = localStorage.getItem('belly_calorie_goal');
     if (savedGoal) {
       document.getElementById('goalInput').value = savedGoal;
     }
     renderDashboard();
+    renderMonthChart();
+  }
+
+  function syncMonthAndRender() {
+    const dateVal = document.getElementById('datePicker').value;
+    if (dateVal && dateVal.length >= 7) {
+      document.getElementById('monthPicker').value = dateVal.slice(0, 7);
+    }
+    renderDashboard();
+    renderMonthChart();
   }
 
   function getGoal() {
@@ -633,32 +754,77 @@
     localStorage.setItem('belly_sport_logs', JSON.stringify(logs));
   }
 
-  // 計算步數與羽毛球消耗
-  function calcSportBurn(steps, badmintonMins) {
-    const stepBurn = Math.round((steps / 1000) * 35); // 每1000步約35kcal
-    const badmBurn = Math.round(badmintonMins * 8.5); // 羽毛球約8.5kcal/分鐘
-    return { stepBurn, badmBurn, totalBurn: stepBurn + badmBurn };
+  // 小米 8 Pro 運動計算：直接用輸入嘅運動 kcal + 步數額外估計
+  function calcSportBurn(steps, sportKcal) {
+    const stepBonus = Math.round((steps / 1000) * 20); // 步數額外微調抵銷
+    const directSport = Math.round(sportKcal);
+    return { stepBonus, directSport, totalBurn: directSport + stepBonus };
   }
 
   function previewSportBurn() {
     const steps = parseInt(document.getElementById('stepsInput').value, 10) || 0;
-    const badm = parseInt(document.getElementById('badmintonInput').value, 10) || 0;
-    const { stepBurn, badmBurn } = calcSportBurn(steps, badm);
-    document.getElementById('stepsBurnEst').textContent = `約消耗 ${stepBurn} kcal`;
-    document.getElementById('badmintonBurnEst').textContent = `約消耗 ${badmBurn} kcal`;
+    const sportKcal = parseInt(document.getElementById('sportKcalInput').value, 10) || 0;
+    const { stepBonus, directSport } = calcSportBurn(steps, sportKcal);
+    document.getElementById('stepsBurnEst').textContent = `步數額外約 +${stepBonus} kcal`;
+    document.getElementById('sportKcalEst').textContent = `小米運動抵銷 ${directSport} kcal`;
   }
 
   function saveSportLog() {
     const date = document.getElementById('datePicker').value;
     const steps = parseInt(document.getElementById('stepsInput').value, 10) || 0;
-    const badm = parseInt(document.getElementById('badmintonInput').value, 10) || 0;
-    const { totalBurn } = calcSportBurn(steps, badm);
+    const sportKcal = parseInt(document.getElementById('sportKcalInput').value, 10) || 0;
+    const { totalBurn } = calcSportBurn(steps, sportKcal);
 
     const sLogs = getSportLogs();
-    sLogs[date] = { steps, badm, totalBurn };
+    sLogs[date] = { steps, sportKcal, totalBurn };
     saveSportLogs(sLogs);
     renderDashboard();
-    alert(`✅ 已記錄今日運動消耗 ${totalBurn} kcal，剩餘可食熱量已自動更新！`);
+    renderMonthChart();
+    alert(`✅ 已記錄今日運動抵銷 ${totalBurn} kcal，剩餘可食熱量與月度圖表已更新！`);
+  }
+
+  // 根據剩餘熱量與碳水狀況生成每日每餐建議
+  function renderMealSuggestions(remain, totalC, highRiskCount) {
+    const listEl = document.getElementById('mealPlanList');
+    let breakfastText = "兩隻烚蛋 + 麥皮 + 無糖豆漿（約 300 kcal，高蛋白穩血糖）";
+    let breakfastQuick = "兩隻烚蛋 + 麥皮 + 無糖豆漿";
+
+    let lunchText = "雪菜肉絲米 + 灼菜心走油（約 425 kcal，低油清淡）";
+    let lunchQuick = "雪菜肉絲米 + 灼菜心";
+
+    let teaText = remain < 350 ? "美式黑咖啡 或 蘋果 1個（約 10-80 kcal，零負擔止口痕）" : "熱檸茶走甜 + 烚蛋 1隻（約 120 kcal）";
+    let teaQuick = remain < 350 ? "蘋果 + 美式咖啡" : "熱檸茶走甜 + 烚蛋";
+
+    let dinnerText = totalC > 130
+      ? "走飯！蒸魚 或 雞胸肉 + 灼西蘭花（約 225 kcal，集中補蛋白唔加碳水）"
+      : "半碗白飯 + 蒸魚 + 灼蔬菜（約 355 kcal，均衡唔積肚腩）";
+    let dinnerQuick = totalC > 130 ? "雞胸肉 + 灼西蘭花" : "半碗白飯 + 蒸魚 + 灼蔬菜";
+
+    if (remain <= 0 || highRiskCount >= 2) {
+      dinnerText = "今日熱量或高致肥項已偏高：建議只食 灼蔬菜 + 雞胸肉（約 210 kcal），避免澱粉與甜飲。";
+      dinnerQuick = "灼蔬菜 + 雞胸肉";
+    }
+
+    const meals = [
+      { tag: "早餐", desc: breakfastText, quick: breakfastQuick },
+      { tag: "午餐", desc: lunchText, quick: lunchQuick },
+      { tag: "下午茶", desc: teaText, quick: teaQuick },
+      { tag: "晚餐", desc: dinnerText, quick: dinnerQuick }
+    ];
+
+    listEl.innerHTML = meals.map(m => `
+      <div class="meal-row">
+        <span class="meal-tag">${m.tag}</span>
+        <span class="meal-desc">${m.desc}</span>
+        <button class="meal-quick-btn" onclick="useMealSuggestion('${m.quick.replace(/'/g, "\\'")}')">套用拆解</button>
+      </div>
+    `).join('');
+  }
+
+  function useMealSuggestion(text) {
+    document.getElementById('foodInput').value = text;
+    analyzeFoodOffline();
+    document.getElementById('foodInput').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function fillPreset(text) {
@@ -804,6 +970,7 @@
     document.getElementById('parsedResults').style.display = 'none';
     currentParsedItems = [];
     renderDashboard();
+    renderMonthChart();
   }
 
   function deleteLogItem(id) {
@@ -813,6 +980,7 @@
     logs[date] = logs[date].filter(item => item.id !== id);
     saveLogs(logs);
     renderDashboard();
+    renderMonthChart();
   }
 
   function clearDayLogs() {
@@ -822,6 +990,109 @@
     logs[date] = [];
     saveLogs(logs);
     renderDashboard();
+    renderMonthChart();
+  }
+
+  // 繪製整個月每日 kcal 變化圖表（純本機 SVG）
+  function renderMonthChart() {
+    const monthStr = document.getElementById('monthPicker').value;
+    if (!monthStr) return;
+
+    const [year, month] = monthStr.split('-').map(Number);
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const logs = getLogs();
+    const sLogs = getSportLogs();
+    const baseGoal = getGoal();
+    const selectedDate = document.getElementById('datePicker').value;
+
+    const dailyData = [];
+    let maxVal = baseGoal;
+    let totalMonthConsumed = 0;
+    let totalMonthBurned = 0;
+    let recordedDays = 0;
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dd = String(d).padStart(2, '0');
+      const mm = String(month).padStart(2, '0');
+      const fullDate = `${year}-${mm}-${dd}`;
+      const dayItems = logs[fullDate] || [];
+      const daySport = sLogs[fullDate] || { totalBurn: 0 };
+      const consumed = dayItems.reduce((sum, item) => sum + item.kcal, 0);
+      const budget = baseGoal + (daySport.totalBurn || 0);
+
+      if (consumed > 0 || (daySport.totalBurn || 0) > 0) {
+        recordedDays++;
+        totalMonthConsumed += consumed;
+        totalMonthBurned += (daySport.totalBurn || 0);
+      }
+
+      maxVal = Math.max(maxVal, consumed, budget);
+      dailyData.push({ day: d, fullDate, consumed, budget, burn: daySport.totalBurn || 0 });
+    }
+
+    maxVal = Math.ceil(maxVal / 500) * 500;
+    if (maxVal < 1500) maxVal = 1500;
+
+    const barWidth = 14;
+    const gap = 8;
+    const leftPad = 36;
+    const topPad = 16;
+    const chartH = 140;
+    const bottomPad = 24;
+    const svgW = leftPad + daysInMonth * (barWidth + gap) + 12;
+    const svgH = topPad + chartH + bottomPad;
+
+    const budgetY = topPad + chartH - (baseGoal / maxVal) * chartH;
+
+    let svgBars = "";
+    dailyData.forEach((item, idx) => {
+      const x = leftPad + idx * (barWidth + gap);
+      const h = Math.round((item.consumed / maxVal) * chartH);
+      const y = topPad + chartH - h;
+
+      let fill = "#10b981";
+      if (item.consumed === 0) fill = "#e5e7eb";
+      else if (item.consumed > item.budget) fill = "#ef4444";
+      else if (item.consumed >= item.budget * 0.85) fill = "#f59e0b";
+
+      const isSelected = item.fullDate === selectedDate;
+      const strokeAttr = isSelected ? 'stroke="#111827" stroke-width="2"' : '';
+
+      svgBars += `
+        <g style="cursor:pointer;" onclick="selectDateFromChart('${item.fullDate}')">
+          <rect x="${x}" y="${y}" width="${barWidth}" height="${Math.max(h, item.consumed > 0 ? 3 : 2)}" rx="4" fill="${fill}" ${strokeAttr}>
+            <title>${item.fullDate}：攝取 ${item.consumed} kcal / 預算 ${item.budget} kcal</title>
+          </rect>
+          <text x="${x + barWidth / 2}" y="${topPad + chartH + 14}" text-anchor="middle" font-size="9" fill="${isSelected ? '#111827' : '#6b7280'}" font-weight="${isSelected ? '700' : '400'}">${item.day}</text>
+        </g>
+      `;
+    });
+
+    const svgHtml = `
+      <svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg">
+        <line x1="${leftPad - 4}" y1="${topPad + chartH}" x2="${svgW}" y2="${topPad + chartH}" stroke="#d1d5db" stroke-width="1" />
+        <line x1="${leftPad - 4}" y1="${budgetY}" x2="${svgW}" y2="${budgetY}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3" />
+        <text x="2" y="${budgetY + 3}" font-size="9" fill="#64748b">${baseGoal}</text>
+        <text x="2" y="${topPad + 8}" font-size="9" fill="#94a3b8">${maxVal}</text>
+        ${svgBars}
+      </svg>
+    `;
+
+    document.getElementById('monthChartContainer').innerHTML = svgHtml;
+
+    const avgConsumed = recordedDays > 0 ? Math.round(totalMonthConsumed / recordedDays) : 0;
+    document.getElementById('monthChartSummary').innerHTML = `
+      <span>已記錄日數：<strong>${recordedDays}</strong> 日</span>
+      <span>日均攝取：<strong>${avgConsumed}</strong> kcal</span>
+      <span>本月運動總消耗：<strong>${totalMonthBurned}</strong> kcal</span>
+    `;
+  }
+
+  function selectDateFromChart(fullDate) {
+    document.getElementById('datePicker').value = fullDate;
+    renderDashboard();
+    renderMonthChart();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function renderDashboard() {
@@ -830,11 +1101,10 @@
     const dayItems = logs[date] || [];
     const baseGoal = getGoal();
 
-    // 讀取當日運動紀錄
     const sLogs = getSportLogs();
-    const daySport = sLogs[date] || { steps: 0, badm: 0, totalBurn: 0 };
+    const daySport = sLogs[date] || { steps: 0, sportKcal: 0, totalBurn: 0 };
     document.getElementById('stepsInput').value = daySport.steps || '';
-    document.getElementById('badmintonInput').value = daySport.badm || '';
+    document.getElementById('sportKcalInput').value = daySport.sportKcal || '';
     previewSportBurn();
 
     const totalKcal = dayItems.reduce((sum, item) => sum + item.kcal, 0);
@@ -843,14 +1113,13 @@
     const totalF = dayItems.reduce((sum, item) => sum + (item.f || 0), 0);
     const highRiskCount = dayItems.filter(item => item.risk === 'high').length;
 
-    // 總可用預算 = 基礎上限 + 運動消耗
-    const effectiveBudget = baseGoal + daySport.totalBurn;
-    const netKcal = Math.max(0, totalKcal - daySport.totalBurn);
+    const effectiveBudget = baseGoal + (daySport.totalBurn || 0);
+    const netKcal = Math.max(0, totalKcal - (daySport.totalBurn || 0));
     const remain = effectiveBudget - totalKcal;
     const pct = Math.min(Math.round((totalKcal / effectiveBudget) * 100), 100);
 
     document.getElementById('consumedVal').textContent = totalKcal;
-    document.getElementById('burnedVal').textContent = daySport.totalBurn;
+    document.getElementById('burnedVal').textContent = daySport.totalBurn || 0;
     document.getElementById('highRiskCount').textContent = highRiskCount;
 
     document.getElementById('protVal').textContent = totalP;
@@ -878,7 +1147,6 @@
     const banner = document.getElementById('adviceBanner');
     const adviceText = document.getElementById('adviceText');
 
-    // 結合營養素與熱量給予控食建議
     if (totalKcal > effectiveBudget) {
       bar.style.backgroundColor = '#ef4444';
       centerText.textContent = `已超標 (${Math.round((totalKcal / effectiveBudget) * 100)}%)`;
@@ -898,12 +1166,14 @@
       bar.style.backgroundColor = '#10b981';
       centerText.textContent = `進度理想 (${pct}%)`;
       banner.className = 'advice-banner';
-      if (daySport.badm > 0) {
-        adviceText.textContent = `🏸 今日打咗 ${daySport.badm} 分鐘羽毛球消耗 ${calcSportBurn(0, daySport.badm).badmBurn} kcal！記得補充足夠蛋白質（目標 ≥65g），修補肌肉又唔易積脂肪。`;
+      if ((daySport.totalBurn || 0) > 0) {
+        adviceText.textContent = `⌚ 今日小米 8 Pro 運動抵銷咗 ${daySport.totalBurn} kcal！記得補充足夠蛋白質（目標 ≥65g），修補肌肉又唔易積脂肪。`;
       } else {
         adviceText.textContent = `今日碳水同油脂控制得好好！仲有 ${remain} kcal 額度，保持高蛋白低油飲食，肚腩好快會收細。`;
       }
     }
+
+    renderMealSuggestions(remain, totalC, highRiskCount);
 
     const listEl = document.getElementById('logList');
     if (dayItems.length === 0) {
@@ -937,6 +1207,7 @@
       localStorage.setItem('belly_calorie_goal', val);
       closeGoalModal();
       renderDashboard();
+      renderMonthChart();
     } else {
       alert("請輸入有效嘅卡路里上限（最少 500）");
     }
